@@ -33,9 +33,11 @@ public class GestionDesVols {
             conn = DriverManager.getConnection(url, user, password);
             
             afficherTablePilote(conn);
+            //majLocalisation(conn);
             afficherTableAvion(conn);
-            majLocalisation(conn);
             
+            //insertionAvion(11, "A300", 300, conn);
+            afficherTableAvion(conn);
             
             if(conn != null) {
                 try {
@@ -141,5 +143,25 @@ public class GestionDesVols {
             System.err.println(e);
         } 
         
+    }
+    
+    public static void insertionAvion(int noAv, String nom, int capacite, Connection conn) {
+        String requete = "insert into avion (AVNUM, AVNOM, CAPACITE) values (?, ?, ?)";
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(requete);
+            
+            ps.setInt(1, noAv);
+            ps.setString(2, nom);
+            ps.setInt(3, capacite);
+            int nb = ps.executeUpdate();
+            if (nb == 0) {
+                throw new SQLException("Pas de update effectués !");
+            }
+            ps.close();
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }
