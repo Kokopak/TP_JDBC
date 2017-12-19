@@ -104,7 +104,7 @@ public class GestionDesVols {
                 }
                 System.out.println("La moyenne des salaires des pilotes est de : " + sal);
             } else {
-                throw new SQLException("Erreur");
+                throw new SQLException("Erreur3");
             }
             rset.close();
             stmt.close();
@@ -129,7 +129,7 @@ public class GestionDesVols {
                 }
                 System.out.println("La somme des capacités des avions est : " +capa);
             } else {
-                throw new SQLException("Erreur");
+                throw new SQLException("Erreur4");
             }
             rset.close();
             stmt.close();
