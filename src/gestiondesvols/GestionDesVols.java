@@ -33,12 +33,13 @@ public class GestionDesVols {
 
             conn = DriverManager.getConnection(url, user, passwd);
             //AfficheTablePilote(conn);
-            AfficheTableAvion(conn);
+            //AfficheTableAvion(conn);
+            salMoyenPilote(conn);
             if (conn != null) {
                 try {
                     conn.close();
                     System.out.println("Fermeture du programme");
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.err.println(e);
                 }
 
@@ -47,14 +48,14 @@ public class GestionDesVols {
             System.out.println(e);
         }
     }
-    
+
     public static void AfficheTablePilote(Connection con) throws SQLException {
         String requete = "Select * from PILOTE";
         try {
             Statement stmt = null;
             stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(requete);
-            
+
             if (rset != null) {
                 while (rset.next()) {
                     System.out.println("\t Numéro pilote : " + rset.getInt("PLNUM") + "\t");
@@ -63,29 +64,28 @@ public class GestionDesVols {
                     System.out.println("\t Ville : " + rset.getString("VILLE") + "\t");
                     System.out.println("\t Date de naissance : " + rset.getTimestamp("DATENAISS") + "\t");
                     System.out.println("\t Salaire : " + rset.getInt("SALAIRE") + "\t");
-                    
+
                     System.out.println("\n---------------------------------");
                 }
                 System.out.println("");
-            }  else {
+            } else {
                 throw new SQLException("Erreur");
             }
             rset.close();
             stmt.close();
-            
+
         } catch (SQLException e) {
             System.err.println(e);
         }
     }
 
-
-public static void AfficheTableAvion(Connection con) throws SQLException {
+    public static void AfficheTableAvion(Connection con) throws SQLException {
         String requete = "Select * from Avion";
         try {
             Statement stmt = null;
             stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(requete);
-            
+
             if (rset != null) {
                 while (rset.next()) {
                     System.out.println("\t Numéro de l'avion : " + rset.getInt("AVNUM") + "\t");
@@ -93,19 +93,43 @@ public static void AfficheTableAvion(Connection con) throws SQLException {
                     System.out.println("\t Capacité de l'avion : " + rset.getInt("CAPACITE") + "\t");
                     System.out.println("\t Localisation : " + rset.getString("LOCALISATION") + "\t");
                     System.out.println("");
-                    
+
                     System.out.println("\n---------------------------------");
                 }
                 System.out.println("");
-            }  else {
+            } else {
                 throw new SQLException("Erreur");
             }
             rset.close();
             stmt.close();
-            
+
         } catch (SQLException e) {
             System.err.println(e);
         }
     }
-}
 
+    public static void salMoyenPilote(Connection con) throws SQLException {
+        String requete = "Select avg(salaire) from Pilote";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            ResultSet rset = stmt.executeQuery(requete);
+            float sal = 0;
+            if (rset != null) {
+                while (rset.next()) {
+                    sal = rset.getFloat("avg(salaire)");
+                }
+                System.out.println(sal);
+            } else {
+                throw new SQLException("Erreur");
+            }
+            rset.close();
+            stmt.close();
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    
+    
+}
