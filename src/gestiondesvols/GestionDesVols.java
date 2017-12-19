@@ -138,4 +138,17 @@ public class GestionDesVols {
             System.err.println(e);
         }
     }
+    public static void majLocalisation(Connection con) throws SQLException {
+        String requete = "update Avion set Localisation='Toulouse'";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            int upd = stmt.executeUpdate(requete);
+            System.out.println("Nombre de modifications effectuées : " +upd);
+            AfficheTableAvion(con);
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
 }
