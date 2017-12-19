@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package gestiondesvols;
+
 import java.sql.*;
 
 /**
@@ -11,6 +12,8 @@ import java.sql.*;
  * @author ipradel
  */
 public class GestionDesVols {
+
+    private static Connection conn = null;
 
     /**
      * @param args the command line arguments
@@ -22,6 +25,19 @@ public class GestionDesVols {
         } catch (java.lang.ClassNotFoundException e) {
             System.err.println("Erreur : " + e.getMessage());
         }
+
+        try {
+            String url = "jdbc:oracle:thin:@licinfo.univ-jfc.fr:1521:pedago";
+            String user = "ISIS3_29";
+            String passwd = "isis";
+            conn = DriverManager.getConnection(url, user, passwd);
+            if (conn != null) {
+                System.out.println("connecté");
+            } else {
+                System.out.println("erreur");
+            }
+        } catch (SQLException ex) {
+            System.err.println("erreur");
+        }
     }
-    
 }
