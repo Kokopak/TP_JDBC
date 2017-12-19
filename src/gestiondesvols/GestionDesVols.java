@@ -41,5 +41,30 @@ public class GestionDesVols {
             System.err.println("FERMER4");
         }
     }
-    
+    public static void AfficheTablePilote(Connection con) throws SQLException {
+        String requete = "";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            ResultSet rset = stmt.executeQuery(requete);
+            if (rset != null) {
+                while (xxxxxx) {
+                    System.out.println("\t Numéro : " + rset.getInt(xxx) + "\t");
+                    System.out.println("\t Nom : " + rset.getString(xxx) + "\t");
+                    System.out.println("\t Capacité : " + rset.getInt(xxx) + "\t");
+                    System.out.println("\t Localisation : " + rset.getString(xxx) +
+                   "\t");
+                    System.out.println("\n---------------------------------");
+                }
+                System.out.println();
+            } else {
+                throw new SQLException("xxxxxx");
+            }
+
+            xxxxxx // fermeture de l'instance ResultSet
+            xxxxxx // fermeture de l'instance Statement
+        } catch (SQLException e) {
+            System.err.println("xxxxxx!");
+        }
+    } 
 }
