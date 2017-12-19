@@ -32,7 +32,8 @@ public class GestionDesVols {
             String passwd = "isis";
 
             conn = DriverManager.getConnection(url, user, passwd);
-            AfficheTablePilote(conn);
+            //AfficheTablePilote(conn);
+            AfficheTableAvion(conn);
             if (conn != null) {
                 try {
                     conn.close();
@@ -69,9 +70,42 @@ public class GestionDesVols {
             }  else {
                 throw new SQLException("Erreur");
             }
+            rset.close();
+            stmt.close();
+            
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+
+
+public static void AfficheTableAvion(Connection con) throws SQLException {
+        String requete = "Select * from Avion";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            ResultSet rset = stmt.executeQuery(requete);
+            
+            if (rset != null) {
+                while (rset.next()) {
+                    System.out.println("\t Numéro de l'avion : " + rset.getInt("AVNUM") + "\t");
+                    System.out.println("\t Nom de l'avion : " + rset.getString("AVNOM") + "\t");
+                    System.out.println("\t Capacité de l'avion : " + rset.getInt("CAPACITE") + "\t");
+                    System.out.println("\t Localisation : " + rset.getString("LOCALISATION") + "\t");
+                    System.out.println("");
+                    
+                    System.out.println("\n---------------------------------");
+                }
+                System.out.println("");
+            }  else {
+                throw new SQLException("Erreur");
+            }
+            rset.close();
+            stmt.close();
             
         } catch (SQLException e) {
             System.err.println(e);
         }
     }
 }
+
