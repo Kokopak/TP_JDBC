@@ -58,12 +58,11 @@ public class GestionDesVols {
                 while (rset.next()) {
                     System.out.println("\t Numéro pilote : " + rset.getInt("PLNUM") + "\t");
                     System.out.println("\t Nom pilote : " + rset.getString("PLNOM") + "\t");
-                    System.out.println("\t Prénom pilote : " + rset.getInt("PLPRENOM") + "\t");
+                    System.out.println("\t Prénom pilote : " + rset.getString("PLPRENOM") + "\t");
                     System.out.println("\t Ville : " + rset.getString("VILLE") + "\t");
-                    System.out.println("\t Date de naissance : " + rset.getString("DATENAISS") + "\t");
-                    System.out.println("\t Salaire : " + rset.getString("SALAIRE") + "\t");
+                    System.out.println("\t Date de naissance : " + rset.getTimestamp("DATENAISS") + "\t");
+                    System.out.println("\t Salaire : " + rset.getInt("SALAIRE") + "\t");
                     
-                    System.out.println("test" + rset.getInt(0));
                     System.out.println("\n---------------------------------");
                 }
                 System.out.println("");
@@ -72,7 +71,7 @@ public class GestionDesVols {
             }
             
         } catch (SQLException e) {
-            System.err.println("idk");
+            System.err.println(e);
         }
     }
 }
