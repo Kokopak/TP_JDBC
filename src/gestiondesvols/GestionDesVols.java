@@ -37,9 +37,10 @@ public class GestionDesVols {
             //salMoyenPilote(conn);
             //capaAvion(conn);
             //majLocalisation(conn);
-            
-            insertionAvion(541, "Avion Ilo", 50, conn);
-            
+
+            //insertionAvion(541, "Avion Ilo", 50, conn);
+
+            rechercheVol(12-02-2017, "Lyon", conn);
             if (conn != null) {
                 try {
                     conn.close();
@@ -135,21 +136,21 @@ public class GestionDesVols {
             System.err.println(e);
         }
     }
-    
+
     public static void capaAvion(Connection con) throws SQLException {
         String requete = "Select sum(capacite) from Avion";
         try {
             Statement stmt = null;
             stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(requete);
-            
+
             int capa = 0;
-            
+
             if (rset != null) {
                 while (rset.next()) {
                     capa = rset.getInt("sum(capacite)");
                 }
-                System.out.println("La somme des capacités des avions est : " +capa);
+                System.out.println("La somme des capacités des avions est : " + capa);
             } else {
                 throw new SQLException("Erreur");
             }
@@ -160,37 +161,63 @@ public class GestionDesVols {
             System.err.println(e);
         }
     }
+
     public static void majLocalisation(Connection con) throws SQLException {
         String requete = "update Avion set Localisation='Toulouse'";
         try {
             Statement stmt = null;
             stmt = con.createStatement();
             int upd = stmt.executeUpdate(requete);
-            System.out.println("Nombre de modifications effectuées : " +upd);
+            System.out.println("Nombre de modifications effectuées : " + upd);
             AfficheTableAvion(con);
             stmt.close();
         } catch (SQLException e) {
             System.err.println(e);
         }
     }
-    
+
     public static void insertionAvion(int no_av, String nom, int capa, Connection con) throws SQLException {
         String requete = "insert into avion(avnum, avnom, capacite) values(?, ?, ?)";
-        
+
         try {
-            PreparedStatement pstmt = conn.prepareStatement(requete);
+            PreparedStatement pstmt = con.prepareStatement(requete);
             pstmt.setInt(1, no_av);
             pstmt.setString(2, nom);
             pstmt.setInt(3, capa);
             int count = pstmt.executeUpdate();
             AfficheTableAvion(con);
-            if (count==0){
-                throw new SQLException ("Erreur");
+            if (count == 0) {
+                throw new SQLException("Erreur");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e);
         }
     }
-    
-    
+
+    public static void rechercheVol(new Timestamp(2017), String villedep, Connection con) {
+        String requete = "Select * from Vol where heuredep=? and villedep=?";
+        try {
+            PreparedStatement pstmt = con.prepareStatement(requete);
+            pstmt.setTimestamp(1, heuredep);
+            pstmt.setString(2, villedep);
+            ResultSet rset = pstmt.executeQuery();
+            if (rset == null) {
+                System.out.println("\t Numéro de vol : " + rset.getInt("volnum") + "\t");
+                System.out.println("\t Nom du pilote : " + rset.getInt("plnum") + "\t");
+                System.out.println("\t Numéro de l'avion : " + rset.getInt("avnum") + "\t");
+                System.out.println("\t Ville de départ : " + rset.getString("villedep") + "\t");
+                System.out.println("\t Ville d'arrivée : " + rset.getString("villearr") + "\t");
+                System.out.println("\t Heure de départ : " + rset.getTimestamp("heuredep") + "\t");
+                System.out.println("\t Heure d'arrivée : " + rset.getTimestamp("heurearr") + "\t");
+            } else {
+                throw new SQLException("Erreur");
+            }
+            rset.close();
+            pstmt.close();
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+
+    }
 }
