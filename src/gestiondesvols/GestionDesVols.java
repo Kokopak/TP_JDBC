@@ -32,7 +32,7 @@ public class GestionDesVols {
             String passwd = "isis";
 
             conn = DriverManager.getConnection(url, user, passwd);
-
+            AfficheTablePilote(conn);
             if (conn != null) {
                 try {
                     conn.close();
@@ -48,7 +48,7 @@ public class GestionDesVols {
     }
     
     public static void AfficheTablePilote(Connection con) throws SQLException {
-        String requete = "";
+        String requete = "Select * from PILOTE";
         try {
             Statement stmt = null;
             stmt = con.createStatement();
@@ -56,20 +56,23 @@ public class GestionDesVols {
             
             if (rset != null) {
                 while (rset.next()) {
-                    System.out.println("\t Numéro : " + rset.getInt("AVNUM") + "\t");
-                    System.out.println("\t" + rset.getString("AVNOM"));
-                    System.out.println("\t" + rset.getInt("CAPACITE"));
-                    System.out.println("\t" + rset.getString("LOCALISATION"));
+                    System.out.println("\t Numéro pilote : " + rset.getInt("PLNUM") + "\t");
+                    System.out.println("\t Nom pilote : " + rset.getString("PLNOM") + "\t");
+                    System.out.println("\t Prénom pilote : " + rset.getInt("PLPRENOM") + "\t");
+                    System.out.println("\t Ville : " + rset.getString("VILLE") + "\t");
+                    System.out.println("\t Date de naissance : " + rset.getString("DATENAISS") + "\t");
+                    System.out.println("\t Salaire : " + rset.getString("SALAIRE") + "\t");
+                    
                     System.out.println("test" + rset.getInt(0));
-                    System.out.println("");
+                    System.out.println("\n---------------------------------");
                 }
                 System.out.println("");
             }  else {
-                throw new SQLException("");
+                throw new SQLException("Erreur");
             }
             
         } catch (SQLException e) {
-            System.err.println("");
+            System.err.println("idk");
         }
     }
 }
