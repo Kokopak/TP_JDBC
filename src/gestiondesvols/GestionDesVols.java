@@ -30,14 +30,46 @@ public class GestionDesVols {
             String url = "jdbc:oracle:thin:@licinfo.univ-jfc.fr:1521:pedago";
             String user = "ISIS3_29";
             String passwd = "isis";
+
             conn = DriverManager.getConnection(url, user, passwd);
+
             if (conn != null) {
-                System.out.println("connecté");
-            } else {
-                System.out.println("erreur");
+                try {
+                    conn.close();
+                    System.out.println("Fermeture du programme");
+                } catch (Exception e){
+                    System.err.println(e);
+                }
+
             }
-        } catch (SQLException ex) {
-            System.err.println("erreur");
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public static void AfficheTablePilote(Connection con) throws SQLException {
+        String requete = "";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            ResultSet rset = stmt.executeQuery(requete);
+            
+            if (rset != null) {
+                while (rset.next()) {
+                    System.out.println("\t Numéro : " + rset.getInt("AVNUM") + "\t");
+                    System.out.println("\t" + rset.getString("AVNOM"));
+                    System.out.println("\t" + rset.getInt("CAPACITE"));
+                    System.out.println("\t" + rset.getString("LOCALISATION"));
+                    System.out.println("test" + rset.getInt(0));
+                    System.out.println("");
+                }
+                System.out.println("");
+            }  else {
+                throw new SQLException("");
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("");
         }
     }
 }
