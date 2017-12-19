@@ -35,7 +35,9 @@ public class GestionDesVols {
             //AfficheTablePilote(conn);
             //AfficheTableAvion(conn);
             //salMoyenPilote(conn);
-            capaAvion(conn);
+            //capaAvion(conn);
+            majLocalisation(conn);
+            
             if (conn != null) {
                 try {
                     conn.close();
@@ -152,6 +154,19 @@ public class GestionDesVols {
             rset.close();
             stmt.close();
 
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    public static void majLocalisation(Connection con) throws SQLException {
+        String requete = "update Avion set Localisation='Toulouse'";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            int upd = stmt.executeUpdate(requete);
+            System.out.println("Nombre de modifications effectuées : " +upd);
+            AfficheTableAvion(con);
+            stmt.close();
         } catch (SQLException e) {
             System.err.println(e);
         }
