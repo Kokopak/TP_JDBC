@@ -32,8 +32,17 @@ public class GestionDesVols {
             
             conn = DriverManager.getConnection(url, user, password);
             
+            afficherTablePilote(conn);
+            
+            
             if(conn != null) {
-                System.out.println("Connexion établie !");
+                try {
+                    conn.close();
+                    System.out.println("Déconnexion");    
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                
             }
             else {
                 System.out.println("Echec de la connexion");
@@ -42,5 +51,38 @@ public class GestionDesVols {
             System.out.println(e);
         }
     }
+    
+    public static void afficherTablePilote(Connection con) throws SQLException  {
+        String requete = "select * from PILOTE";
+        
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+        
+            ResultSet rset = stmt.executeQuery(requete);
+            
+            if (rset != null) {
+                while (rset.next()) {
+                    System.out.println("\t Numéro : " + rset.getInt("PLNUM") + "\t");
+                    System.out.println("\t Nom : " + rset.getString("PLNOM"));
+                    System.out.println("\t Date de naissance : " + rset.getTimestamp("DATENAISS"));
+                    System.out.println("\t Salaire : " + rset.getInt("SALAIRE"));
+                    
+                    System.out.println("\n----------------------------------------------");
+                }
+                System.out.println();
+            } else {
+              throw new SQLException("Echec lors de l'éxécution de la query !");  
+            }
+            rset.close();
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+        
+        
+    }
+    
+    
     
 }
