@@ -33,6 +33,8 @@ public class GestionDesVols {
             conn = DriverManager.getConnection(url, user, password);
             
             afficherTablePilote(conn);
+            afficherTableAvion(conn);
+            majLocalisation(conn);
             
             
             if(conn != null) {
@@ -91,6 +93,8 @@ public class GestionDesVols {
     public static void afficherTableAvion(Connection con) throws SQLException  {
         String requete = "select * from AVION";
         
+        int sommeCapacité = 0;
+        
         try {
             Statement stmt = null;
             stmt = con.createStatement();
@@ -101,12 +105,15 @@ public class GestionDesVols {
                 while (rset.next()) {
                     System.out.println("\t Numéro : " + rset.getInt("AVNUM") + "\t");
                     System.out.println("\t Nom : " + rset.getString("AVNOM"));
-                    System.out.println("\t Capacité : " + rset.getString("CAPACITE"));
+                    System.out.println("\t Capacité : " + rset.getInt("CAPACITE"));
                     System.out.println("\t Localisation : " + rset.getString("LOCALISATION"));
                     
                     System.out.println("\n----------------------------------------------");
+                    
+                    sommeCapacité += rset.getInt("CAPACITE");
                 }
                 System.out.println();
+                System.out.println("Somme des capacités : " + sommeCapacité);
             } else {
               throw new SQLException("Echec lors de l'éxécution de la query !");  
             }
@@ -115,5 +122,24 @@ public class GestionDesVols {
         } catch (SQLException e) {
             System.err.println(e);
         } 
+    }
+    
+    public static void majLocalisation(Connection con) {    
+        String requete = "update avion set LOCALISATION='Toulouse' where AVNOM='A300'";
+        
+        int sommeCapacité = 0;
+        
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+        
+            int nb = stmt.executeUpdate(requete);
+            
+            System.out.println("Nombre de update effectués : " + nb);
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        } 
+        
     }
 }
