@@ -36,7 +36,9 @@ public class GestionDesVols {
             //AfficheTableAvion(conn);
             //salMoyenPilote(conn);
             //capaAvion(conn);
-            majLocalisation(conn);
+            //majLocalisation(conn);
+            
+            insertionAvion(541, "Avion Ilo", 50, conn);
             
             if (conn != null) {
                 try {
@@ -168,6 +170,24 @@ public class GestionDesVols {
             AfficheTableAvion(con);
             stmt.close();
         } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    
+    public static void insertionAvion(int no_av, String nom, int capa, Connection con) throws SQLException {
+        String requete = "insert into avion(avnum, avnom, capacite) values(?, ?, ?)";
+        
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(requete);
+            pstmt.setInt(1, no_av);
+            pstmt.setString(2, nom);
+            pstmt.setInt(3, capa);
+            int count = pstmt.executeUpdate();
+            AfficheTableAvion(con);
+            if (count==0){
+                throw new SQLException ("Erreur");
+            }
+        } catch (SQLException e){
             System.err.println(e);
         }
     }
