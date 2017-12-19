@@ -17,7 +17,7 @@ public class GestionDesVols {
      */
     public static void main(String[] args) {
         try {
-            Class.forName("oracle.jdbc.driver.ojdbc7.jar");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             System.out.println("Pilote chargé");
         } catch (java.lang.ClassNotFoundException e) {
             System.err.println("Erreur : " + e.getMessage());
