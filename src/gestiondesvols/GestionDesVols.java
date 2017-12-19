@@ -34,7 +34,8 @@ public class GestionDesVols {
             conn = DriverManager.getConnection(url, user, passwd);
             //AfficheTablePilote(conn);
             //AfficheTableAvion(conn);
-            salMoyenPilote(conn);
+            //salMoyenPilote(conn);
+            capaAvion(conn);
             if (conn != null) {
                 try {
                     conn.close();
@@ -119,7 +120,32 @@ public class GestionDesVols {
                 while (rset.next()) {
                     sal = rset.getFloat("avg(salaire)");
                 }
-                System.out.println(sal);
+                System.out.println("La moyenne des salaires des pilotes est de : " + sal);
+            } else {
+                throw new SQLException("Erreur");
+            }
+            rset.close();
+            stmt.close();
+
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+    
+    public static void capaAvion(Connection con) throws SQLException {
+        String requete = "Select sum(capacite) from Avion";
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+            ResultSet rset = stmt.executeQuery(requete);
+            
+            int capa = 0;
+            
+            if (rset != null) {
+                while (rset.next()) {
+                    capa = rset.getInt("sum(capacite)");
+                }
+                System.out.println("La somme des capacités des avions est : " +capa);
             } else {
                 throw new SQLException("Erreur");
             }
