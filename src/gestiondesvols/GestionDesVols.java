@@ -32,7 +32,7 @@ public class GestionDesVols {
             
             conn = DriverManager.getConnection(url, user, password);
             
-            afficherTableAvion(conn);
+            afficherTablePilote(conn);
             
             
             if(conn != null) {
@@ -55,6 +55,9 @@ public class GestionDesVols {
     public static void afficherTablePilote(Connection con) throws SQLException  {
         String requete = "select * from PILOTE";
         
+        float moyenneSal = 0;
+        int totalPilote = 0;
+        
         try {
             Statement stmt = null;
             stmt = con.createStatement();
@@ -66,11 +69,15 @@ public class GestionDesVols {
                     System.out.println("\t Numéro : " + rset.getInt("PLNUM") + "\t");
                     System.out.println("\t Nom : " + rset.getString("PLNOM"));
                     System.out.println("\t Date de naissance : " + rset.getTimestamp("DATENAISS"));
-                    System.out.println("\t Salaire : " + rset.getInt("SALAIRE"));
+                    System.out.println("\t Salaire : " + rset.getFloat("SALAIRE"));
+                    
+                    moyenneSal += rset.getFloat("SALAIRE");
+                    totalPilote += 1;
                     
                     System.out.println("\n----------------------------------------------");
                 }
                 System.out.println();
+                System.out.println("Moyenne des salaires : " + moyenneSal / totalPilote);
             } else {
               throw new SQLException("Echec lors de l'éxécution de la query !");  
             }
