@@ -32,7 +32,7 @@ public class GestionDesVols {
             
             conn = DriverManager.getConnection(url, user, password);
             
-            afficherTablePilote(conn);
+            afficherTableAvion(conn);
             
             
             if(conn != null) {
@@ -78,11 +78,35 @@ public class GestionDesVols {
             stmt.close();
         } catch (SQLException e) {
             System.err.println(e);
-        }
-        
-        
+        } 
     }
     
-    
-    
+    public static void afficherTableAvion(Connection con) throws SQLException  {
+        String requete = "select * from AVION";
+        
+        try {
+            Statement stmt = null;
+            stmt = con.createStatement();
+        
+            ResultSet rset = stmt.executeQuery(requete);
+            
+            if (rset != null) {
+                while (rset.next()) {
+                    System.out.println("\t Numéro : " + rset.getInt("AVNUM") + "\t");
+                    System.out.println("\t Nom : " + rset.getString("AVNOM"));
+                    System.out.println("\t Capacité : " + rset.getString("CAPACITE"));
+                    System.out.println("\t Localisation : " + rset.getString("LOCALISATION"));
+                    
+                    System.out.println("\n----------------------------------------------");
+                }
+                System.out.println();
+            } else {
+              throw new SQLException("Echec lors de l'éxécution de la query !");  
+            }
+            rset.close();
+            stmt.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        } 
+    }
 }
