@@ -19,16 +19,16 @@ public class GestionDesVols {
     public static void main(String[] args) {
   
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Class.forName("org.postgresql.Driver");
             System.out.println("Pilote chargé");
         } catch (java.lang.ClassNotFoundException e) {
             System.err.println("Erreur : " + e.getMessage());
         }
         
         try {
-            String url = "jdbc:oracle:thin:@licinfo.univ-jfc.fr:1521:pedago";
-            String user = "ISIS3_20";
-            String password = "isis";
+            String url = "jdbc:postgresql:gestion_vol";
+            String user = "postgres";
+            String password = "postgres";
             
             conn = DriverManager.getConnection(url, user, password);
             
