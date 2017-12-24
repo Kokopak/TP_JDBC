@@ -5,6 +5,9 @@
  */
 package gestiondesvols;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -37,7 +40,18 @@ public class GestionDesVols {
             afficherTableAvion(conn);
             
             //insertionAvion(11, "A300", 300, conn);
-            afficherTableAvion(conn);
+            //afficherTableAvion(conn);
+            
+            String time = "9:00";
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm");
+            
+            
+            try {
+				rechercheVol(conn, new Time(timeFormat.parse(time).getTime()), "Nantes");
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             
             if(conn != null) {
                 try {
@@ -58,6 +72,7 @@ public class GestionDesVols {
     
     public static void afficherTablePilote(Connection con) throws SQLException  {
         String requete = "select * from PILOTE";
+        System.out.println("Table pilote : \n");
         
         float moyenneSal = 0;
         int totalPilote = 0;
@@ -80,8 +95,8 @@ public class GestionDesVols {
                     
                     System.out.println("\n----------------------------------------------");
                 }
-                System.out.println();
                 System.out.println("Moyenne des salaires : " + moyenneSal / totalPilote);
+                System.out.println("\n");
             } else {
               throw new SQLException("Echec lors de l'éxécution de la query !");  
             }
@@ -94,6 +109,8 @@ public class GestionDesVols {
     
     public static void afficherTableAvion(Connection con) throws SQLException  {
         String requete = "select * from AVION";
+        
+        System.out.println("Table avion : \n");
         
         int sommeCapacité = 0;
         
@@ -114,8 +131,8 @@ public class GestionDesVols {
                     
                     sommeCapacité += rset.getInt("CAPACITE");
                 }
-                System.out.println();
                 System.out.println("Somme des capacités : " + sommeCapacité);
+                System.out.println("\n");
             } else {
               throw new SQLException("Echec lors de l'éxécution de la query !");  
             }
@@ -162,6 +179,43 @@ public class GestionDesVols {
             
         } catch (SQLException e) {
             System.out.println(e);
+        }
+    }
+    
+    public static void rechercheVol(Connection conn, Time heureDepart, String lieuDepart) {
+    	String requete = "select * from VOL where heuredep=? and villedep=?";
+    	System.out.println("Résultat(s) recherche du vol : \n");
+    	
+    	try {
+            PreparedStatement ps = conn.prepareStatement(requete);
+            
+            ps.setTime(1, heureDepart);
+            ps.setString(2, lieuDepart);
+            
+            ResultSet rset  = ps.executeQuery();
+            
+            if (rset != null) {
+                while (rset.next()) {
+                	System.out.println("\t Numéro : " + rset.getInt("VOLNUM") + "\t");
+                	System.out.println("\t Ville départ : " + rset.getString("VILLEDEP") + "\t");
+                	System.out.println("\t Ville arrivé : " + rset.getString("VILLEARR") + "\t");
+                	System.out.println("\t Heure départ : " + rset.getTime("HEUREDEP") + "\t");
+                	System.out.println("\t Heure arrivé : " + rset.getTime("HEUREARR") + "\t");
+                    
+                    System.out.println("\n----------------------------------------------");
+                    
+                }
+                System.out.println();
+            } else {
+              throw new SQLException("Echec lors de l'éxécution de la query !");  
+            }
+            
+            
+            
+            ps.close();
+            
+        } catch (SQLException e) {
+        	System.out.println(e);
         }
     }
 }
